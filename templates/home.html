@@ -258,40 +258,53 @@
         // Modified startNLPProcess
         function startNLPProcess() {
             document.getElementById('messageText').textContent = "Starting voice recognition...";
-            document.getElementById('questions').textContent = "Please speak clearly...";
             
-            fetch('/nlp_process/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Update NLP results first
-                        const nlpInfo = `
-                            <div class="nlp-results">
-                                <strong>NLP Results:</strong><br>
-                                First Name: ${data.first_name}<br>
-                                Last Name: ${data.last_name}<br>
-                                Age: ${data.age}<br>
-                                Phone: ${data.phone}
-                            </div>`;
-                        document.getElementById('ocrResults').innerHTML = nlpInfo;
-                        
-                        // Start OCR only after NLP is complete
-                        document.getElementById('messageText').textContent = "NLP Complete. Starting OCR...";
-                        document.getElementById('questions').textContent = "Please show your Aadhar card";
-                        
-                        // Small delay before starting OCR to allow UI update
-                        setTimeout(() => {
-                            startOCRProcess();
-                        }, 1000);
-                    } else {
-                        document.getElementById('messageText').textContent = "NLP Failed";
-                        document.getElementById('questions').textContent = data.message;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('messageText').textContent = "Error in NLP process";
-                });
+            function updateNLPStatus() {
+                fetch('/nlp_process/')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // Update the current prompt
+                            if (data.current_prompt) {
+                                document.getElementById('questions').textContent = data.current_prompt;
+                            }
+                            
+                            // Update NLP results if available
+                            if (data.user_info) {
+                                const nlpInfo = `
+                                    <div class="nlp-results">
+                                        <strong>NLP Results:</strong><br>
+                                        First Name: ${data.user_info.first_name}<br>
+                                        Last Name: ${data.user_info.last_name}<br>
+                                        Age: ${data.user_info.age}<br>
+                                        Phone: ${data.user_info.phone}
+                                    </div>`;
+                                document.getElementById('ocrResults').innerHTML = nlpInfo;
+                            }
+
+                            // If NLP is still in progress, continue polling
+                            if (!data.nlp_complete) {
+                                setTimeout(updateNLPStatus, 1000);
+                            } else {
+                                // Start OCR when NLP is complete
+                                document.getElementById('messageText').textContent = "NLP Complete. Starting OCR...";
+                                document.getElementById('questions').textContent = "Please show your Aadhar card";
+                                setTimeout(() => {
+                                    startOCRProcess();
+                                }, 1000);
+                            }
+                        } else {
+                            document.getElementById('messageText').textContent = "NLP Failed";
+                            document.getElementById('questions').textContent = data.message || "Error in NLP process";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('messageText').textContent = "Error in NLP process";
+                    });
+            }
+
+            updateNLPStatus(); // Start the polling process
         }
 
         function startOCRProcess() {
