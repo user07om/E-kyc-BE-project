@@ -340,3 +340,287 @@
 2025-04-16 18:40:04,478 - ERROR -> Error cleaning up temp files: [WinError 3] The system cannot find the path specified: 'D:\\omkar\\E-kyc-BE-project\\ekyc\\temp'
 2025-04-16 18:40:05,488 - ERROR -> Error cleaning up temp files: [WinError 3] The system cannot find the path specified: 'D:\\omkar\\E-kyc-BE-project\\ekyc\\temp'
 2025-04-16 18:40:06,485 - ERROR -> Error cleaning up temp files: [WinError 3] The system cannot find the path specified: 'D:\\omkar\\E-kyc-BE-project\\ekyc\\temp'
+2025-06-02 00:46:37,191 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:38,202 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:39,196 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:40,195 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:41,205 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:42,202 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:43,192 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:44,202 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:46:45,204 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:46:46,196 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:46:47,192 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:46:48,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:49,200 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:50,204 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:51,197 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:52,194 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:53,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:54,192 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:55,199 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:56,197 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:57,191 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:58,200 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:46:59,196 - INFO -> Current prompt being sent: Please say your last name:
+2025-06-02 00:47:00,203 - INFO -> Current prompt being sent: Please say your last name:
+2025-06-02 00:47:01,200 - INFO -> Current prompt being sent: Please say your last name:
+2025-06-02 00:47:02,198 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:03,193 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:04,190 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:05,202 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:06,198 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:07,206 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:08,509 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:09,192 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:10,207 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:11,199 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:12,199 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:13,194 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:14,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your last name:
+2025-06-02 00:47:15,197 - INFO -> Current prompt being sent: Please say your age (must be 18 or older):
+2025-06-02 00:47:16,190 - INFO -> Current prompt being sent: Please say your age (must be 18 or older):
+2025-06-02 00:47:17,201 - INFO -> Current prompt being sent: Please say your age (must be 18 or older):
+2025-06-02 00:47:18,196 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:19,191 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:20,200 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:21,192 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:22,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:23,202 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:24,199 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:25,193 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:26,204 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:27,205 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:28,192 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:29,204 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:30,202 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your age (must be 18 or older):
+2025-06-02 00:47:31,198 - INFO -> Current prompt being sent: Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:32,190 - INFO -> Current prompt being sent: Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:33,205 - INFO -> Current prompt being sent: Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:34,199 - INFO -> Current prompt being sent: Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:35,204 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:36,199 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:37,196 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:38,194 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:39,190 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:40,202 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:41,200 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:42,196 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:43,192 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:44,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:45,197 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:46,194 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:47,203 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:48,195 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your 10-digit mobile number (e.g., 1234567890):
+2025-06-02 00:47:49,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:50,205 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:51,201 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:52,199 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:53,195 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:54,195 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:55,194 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:56,202 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:57,198 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:58,204 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:47:59,204 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:00,202 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:01,201 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:02,201 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:03,224 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:04,203 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:05,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:06,194 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:07,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:08,205 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:09,194 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:10,198 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:11,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:12,207 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:13,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:14,196 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:15,191 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:16,208 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:17,192 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:18,198 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:19,193 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:20,206 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:21,194 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:22,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:23,723 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:24,720 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:25,718 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:26,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:27,717 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:28,714 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:29,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:30,710 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:31,723 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:32,719 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:33,714 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:34,717 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:35,711 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:36,723 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:37,719 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:38,717 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:39,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:40,721 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:41,719 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:42,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:43,725 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:44,720 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:45,720 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:46,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:47,712 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:48,723 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:49,721 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:50,715 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:51,710 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:52,719 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:53,717 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:54,714 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:55,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:56,714 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:57,715 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:58,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:48:59,718 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:00,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:01,725 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:02,724 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:03,717 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:04,719 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:05,715 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:06,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:07,709 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:08,712 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:09,715 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:10,712 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:11,724 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:12,718 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:13,726 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:14,711 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:15,716 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:16,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:17,723 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:18,712 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:19,720 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:20,715 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:21,711 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:22,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:23,713 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:24,712 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:25,722 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:49:26,711 - INFO -> Current prompt being sent: Maximum attempts reached. Using default value.
+2025-06-02 00:50:19,560 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:19,717 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:20,721 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:21,737 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:22,198 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:23,389 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:24,199 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:25,197 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:26,197 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:27,482 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:28,486 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:29,490 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:30,524 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:31,488 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:32,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:33,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:34,487 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:35,482 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:36,493 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:37,488 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:38,488 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:39,486 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:40,488 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:41,487 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:42,485 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:43,482 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:44,481 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:45,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:46,493 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:47,490 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:48,490 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:49,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:50,478 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:51,493 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:52,485 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:53,485 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:54,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:55,489 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:56,488 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:57,485 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:58,483 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:50:59,480 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:51:00,492 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:51:01,489 - INFO -> Current prompt being sent: Please wait...
+2025-06-02 00:51:02,487 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:51:03,487 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:51:04,481 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:51:05,481 - INFO -> Current prompt being sent: Please say your first name:
+2025-06-02 00:51:06,492 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:07,483 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:08,494 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:09,490 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:10,483 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:11,480 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:12,479 - INFO -> Current prompt being sent: Sorry, I couldn't understand that. Please speak clearly.
+Please say your first name:
+2025-06-02 00:51:20,492 - INFO -> Current prompt being sent: Please say your last name:

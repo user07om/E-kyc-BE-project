@@ -116,43 +116,47 @@ def human_verification(request):
         'message': 'Invalid request method'
     })
 
+@login_required
 def nlp_process(request):
-    """Handle NLP process and trigger OCR process sequentially"""
     try:
-        user_info = UserInfo()
         stop_event = threading.Event()
+        user_info = UserInfo()
+        
+        # Start NLP process
         info_thread = threading.Thread(target=get_user_info, args=(stop_event, user_info))
         info_thread.start()
         info_thread.join()
 
-        if any(value.startswith("Waiting for") for value in [
+        # Check if all information was collected
+        nlp_complete = not any(value.startswith("Waiting for") for value in [
             user_info.first_name, 
             user_info.last_name, 
             user_info.age, 
             user_info.phone
-        ]):
-            return JsonResponse({
-                'status': 'error',
-                'message': 'NLP process failed to collect all required information'
-            })
+        ])
 
-        # Return only NLP results first - OCR will be handled by separate request
         return JsonResponse({
             'status': 'success',
-            'first_name': user_info.first_name,
-            'last_name': user_info.last_name,
-            'age': user_info.age,
-            'phone': user_info.phone
+            'nlp_complete': nlp_complete,
+            'user_info': {
+                'first_name': user_info.first_name,
+                'last_name': user_info.last_name,
+                'age': user_info.age,
+                'phone': user_info.phone
+            }
         })
 
     except Exception as e:
-        logger.error(f"Error in NLP process: {str(e)}")
         return JsonResponse({
             'status': 'error',
             'message': str(e)
         })
-    finally:
-        stop_event.set()
+
+def get_current_prompt(request):
+    from .NLP import current_prompt
+    # logger.info(f"Current prompt being sent: {current_prompt}")
+    print(current_prompt, "views script current_prompt")  
+    return JsonResponse({'prompt': current_prompt, 'status': 'success'})
 
 verifier = HumanVerificationSystem()
 
@@ -207,50 +211,106 @@ def capture_photo(request):
     except Exception as e:
         return JsonResponse({'error': str(e)})
 
+def get_most_frequent_data(all_results):
+    """Get the most frequent value for each field from multiple OCR results"""
+    field_values = {
+        "name": [],
+        "dob": [],
+        "aadhar_number": [],
+        "address": []
+    }
+    
+    # Collect all values
+    for result in all_results:
+        for field in field_values.keys():
+            if result.get(field):
+                field_values[field].append(result[field])
+    
+    # Get most frequent value for each field
+    final_result = {}
+    for field, values in field_values.items():
+        if values:
+            # Use Counter to find most common value
+            from collections import Counter
+            counter = Counter(values)
+            final_result[field] = counter.most_common(1)[0][0]
+    
+    return final_result
+
 @csrf_exempt
 def ocr_process(request):
-    """Quick OCR process with single frame check"""
     try:
-        if request.method != 'POST':
-            return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
-        data = json.loads(request.body)
-        frame_data = data.get('frame')
-        
-        # Process frame
-        frame_bytes = base64.b64decode(frame_data.split(',')[1])
-        frame_arr = np.frombuffer(frame_bytes, np.uint8)
-        frame = cv2.imdecode(frame_arr, cv2.IMREAD_COLOR)
-
-        if frame is None:
-            return JsonResponse({'status': 'detecting', 'message': 'Invalid frame data'})
-
-        # Quick process single frame
-        card_detected, result = process_multiple_frames(frame, num_frames=1)
-        
-        if card_detected:
-            if result:
-                print(f"OCR Results: {result}")
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            frame_data = data.get('frame')
+            elapsed_time = data.get('elapsed_time', 0)
+            
+            if not frame_data:
                 return JsonResponse({
-                    'status': 'success',
-                    'message': 'OCR completed',
-                    'results': result
+                    'status': 'error',
+                    'message': 'No frame data provided'
                 })
+
+            # Process frame
+            frame_bytes = base64.b64decode(frame_data.split(',')[1])
+            frame_arr = np.frombuffer(frame_bytes, np.uint8)
+            frame = cv2.imdecode(frame_arr, cv2.IMREAD_COLOR)
+
+            if frame is None:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Invalid frame data'
+                })
+
+            # Store OCR results in session
+            if not request.session.get('ocr_results'):
+                request.session['ocr_results'] = []
+            
+            # Process the frame for OCR
+            card_detected, result = process_multiple_frames(frame, num_frames=1)
+            
+            if card_detected and result:
+                # Add new result to session
+                request.session['ocr_results'].append(result)
+                request.session.modified = True
+                
+                # If this is the final processing (-1) or we have good results
+                if elapsed_time == -1 or (result.get('Name') and result.get('Aadhar Number')):
+                    # Get most frequent values from all results
+                    all_results = request.session['ocr_results']
+                    final_result = get_most_frequent_data([{
+                        'name': r.get('Name', ''),
+                        'dob': r.get('DOB', ''),
+                        'aadhar_number': r.get('Aadhar Number', ''),
+                        'address': r.get('Address', '')
+                    } for r in all_results])
+                    
+                    # Clear session data
+                    request.session['ocr_results'] = []
+                    
+                    if final_result:
+                        return JsonResponse({
+                            'status': 'success',
+                            'ocr_complete': True,
+                            'ocr_data': final_result
+                        })
+            
+            # If still processing
+            if elapsed_time > 0:
+                return JsonResponse({
+                    'status': 'processing',
+                    'message': 'Card detection in progress...'
+                })
+            
+            # If timeout or final processing with no results
             return JsonResponse({
-                'status': 'detecting',
-                'message': 'Card detected, retrying OCR...'
+                'status': 'error',
+                'message': 'Could not read card clearly'
             })
-        
-        return JsonResponse({
-            'status': 'detecting',
-            'message': 'Looking for Aadhar card...'
-        })
 
     except Exception as e:
-        logger.error(f"Error in OCR process: {str(e)}")
+        print(f"OCR Error: {str(e)}")
         return JsonResponse({
             'status': 'error',
-            'message': str(e)
+            'message': 'Error processing card'
         })
-
-

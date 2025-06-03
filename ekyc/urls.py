@@ -14,4 +14,5 @@ urlpatterns = [
     #login related routes
     path('login/', views.Login.as_view(), name="login"),
     path('signup/', views.signup_view, name="signup"),
+    path('get_current_prompt/', views.get_current_prompt, name='get_current_prompt'),
 ]

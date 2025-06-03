@@ -121,55 +121,413 @@
         .result-feed::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: -50px auto 2rem;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            background: #1e3c72;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+        }
+
+        .step-title {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .start-button {
+            background: #2a5298;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .start-button:hover {
+            background: #1e3c72;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1600px;
+        }
+
+        .verification-container {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .webcam-feed {
+            flex: 1;
+            position: relative;
+            min-height: 480px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .result-feed {
+            flex: 1;
+            min-height: 480px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .thank-you-container {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+        }
+
+        .thank-you-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .thank-you-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .data-preview {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .data-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .data-section h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0.5rem;
+        }
+
+        .data-field {
+            display: flex;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .field-label {
+            width: 150px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .field-value {
+            flex: 1;
+        }
+
+        .field-value input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .field-value span {
+            display: block;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="result-feed">
-                <div class="completion-circle" id="completion-circle">0%</div>
-                <div class="ocr-results" id="ocrResults"></div>
+    <div class="hero-section">
+        <h1 class="hero-title">eKYC Process</h1>
+        <p class="hero-subtitle">Follow these steps to complete your eKYC verification</p>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h2 class="step-title">Wave your hand</h2>
+                <p class="step-description">Wave your hand to begin the verification process</p>
             </div>
-            <div class="webcam-feed">
-                <video id="webcam" autoplay></video>
-                <div class="status-overlay">
-                    <div class="verification-message" id="messageText">Starting verification...</div>
-                    <div class="status-indicators">
-                        <div class="status-box">
-                            Wave count: <span id="waveCount">0</span>/2
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h2 class="step-title">Blink your eyes</h2>
+                <p class="step-description">Blink your eyes to complete the verification process</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h2 class="step-title">Show your Aadhaar card</h2>
+                <p class="step-description">Show your Aadhaar card to complete the verification process</p>
+            </div>
+        </div>
+        <button class="start-button" onclick="initializeVerification()">Start Verification</button>
+    </div>
+    <div class="verification-container">
+        <div class="container">
+            <div class="content">
+                <div class="result-feed">
+                    <div class="completion-circle" id="completion-circle">0%</div>
+                    <div class="ocr-results" id="ocrResults"></div>
+                </div>
+                <div class="webcam-feed">
+                    <video id="webcam" autoplay></video>
+                    <div class="status-overlay">
+                        <div class="verification-message" id="messageText">Starting verification...</div>
+                        <div class="status-indicators">
+                            <div class="status-box">
+                                Wave count: <span id="waveCount">0</span>/2
+                            </div>
+                            <div class="status-box">
+                                Blink count: <span id="blinkCount">0</span>/3
+                            </div>
                         </div>
-                        <div class="status-box">
-                            Blink count: <span id="blinkCount">0</span>/3
+                    </div>
+                    <canvas id="canvasElement" style="display:none;"></canvas>
+                    <div class="questions" id="questions">Please follow the instructions...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="thank-you-container" id="thankYouContainer">
+        <div class="thank-you-content">
+            <div class="thank-you-header">
+                <h1>Thank You!</h1>
+                <p>Please review your information below</p>
+            </div>
+            <div class="data-preview">
+                <div class="data-section">
+                    <h3>Personal Information</h3>
+                    <div class="data-field">
+                        <div class="field-label">First Name</div>
+                        <div class="field-value">
+                            <span id="preview-firstname"></span>
+                            <input type="text" id="edit-firstname">
+                        </div>
+                    </div>
+                    <div class="data-field">
+                        <div class="field-label">Last Name</div>
+                        <div class="field-value">
+                            <span id="preview-lastname"></span>
+                            <input type="text" id="edit-lastname">
+                        </div>
+                    </div>
+                    <div class="data-field">
+                        <div class="field-label">Age</div>
+                        <div class="field-value">
+                            <span id="preview-age"></span>
+                            <input type="text" id="edit-age">
+                        </div>
+                    </div>
+                    <div class="data-field">
+                        <div class="field-label">Phone</div>
+                        <div class="field-value">
+                            <span id="preview-phone"></span>
+                            <input type="text" id="edit-phone">
                         </div>
                     </div>
                 </div>
-                <canvas id="canvasElement" style="display:none;"></canvas>
-                <div class="questions" id="questions">Please follow the instructions...</div>
+                <div class="data-section">
+                    <h3>Aadhaar Information</h3>
+                    <div class="data-field">
+                        <div class="field-label">Aadhaar Number</div>
+                        <div class="field-value">
+                            <span id="preview-aadhaar"></span>
+                            <input type="text" id="edit-aadhaar">
+                        </div>
+                    </div>
+                    <div class="data-field">
+                        <div class="field-label">Address</div>
+                        <div class="field-value">
+                            <span id="preview-address"></span>
+                            <input type="text" id="edit-address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="enableEdit()">Edit Information</button>
+                <button class="btn btn-primary" onclick="submitFinal()">Confirm & Submit</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Existing initialization code
-        const video = document.getElementById('webcam');
-        const canvas = document.getElementById('canvasElement');
-        const ctx = canvas.getContext('2d');
+        let video = null;
+        let canvas = null;
+        let ctx = null;
+        let mediaStream = null;
         let verificationComplete = false;
-        
-        // Initialize webcam with human verification
-        async function initCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+        function initializeVerification() {
+            // Initialize video and canvas elements
+            video = document.getElementById('webcam');
+            canvas = document.getElementById('canvasElement');
+            ctx = canvas.getContext('2d');
+
+            // Hide hero section and show verification container
+            document.querySelector('.hero-section').style.display = 'none';
+            document.querySelector('.verification-container').style.display = 'block';
+
+            // Initialize camera
+            navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: 'user',
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                } 
+            })
+            .then(stream => {
+                mediaStream = stream;
                 video.srcObject = stream;
-                startVerificationProcess();
-            } catch (err) {
-                console.error("Error accessing camera:", err);
-                document.getElementById('messageText').textContent = "Camera access denied";
-            }
+                video.play()
+                .then(() => {
+                    // Start verification process only after camera is ready
+                    startHumanVerification();
+                })
+                .catch(err => {
+                    console.error('Error playing video:', err);
+                    alert('Error initializing camera. Please ensure camera permissions are granted.');
+                });
+            })
+            .catch(err => {
+                console.error('Error accessing camera:', err);
+                alert('Could not access camera. Please ensure camera permissions are granted.');
+            });
         }
 
-        // Process frames for verification
+        function startHumanVerification() {
+            document.getElementById('messageText').textContent = "Wave your hand to begin";
+            document.getElementById('questions').textContent = "Please wave your hand twice to start";
+            processFrame();
+        }
+
         function processFrame() {
+            if (!mediaStream || !video.videoWidth) {
+                console.error('Video not initialized');
+                return;
+            }
             if (verificationComplete) return;
             
             if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -245,30 +603,50 @@
                 </div>`;
         }
 
-        function askQuestion(question) {
-            const questionsDiv = document.getElementById('questions');
-            questionsDiv.textContent = question;
-        }
+        let promptPollingInterval;
 
-        function startVerificationProcess() {
-            document.getElementById('messageText').textContent = "Wave your hand to begin";
-            processFrame();
+        function updatePrompt() {
+            console.log("Fetching current prompt...");
+            fetch('{% url "get_current_prompt" %}')
+                .then(response => {
+                    console.log("Response received:", response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data received:", data);
+                    if (data.status === 'success') {
+                        if (data.prompt === null) {
+                            // Stop polling when prompt is null (NLP complete)
+                            console.log("NLP complete, stopping prompt updates");
+                            clearInterval(promptPollingInterval);
+                            document.getElementById('questions').textContent = "Voice recognition complete. Starting OCR...";
+                            setTimeout(() => {
+                                startOCRProcess();
+                            }, 2000);
+                        } else if (data.prompt) {
+                            console.log("Updating question div with:", data.prompt);
+                            document.getElementById('questions').textContent = data.prompt;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching prompt:', error);
+                });
         }
 
         // Modified startNLPProcess
         function startNLPProcess() {
             document.getElementById('messageText').textContent = "Starting voice recognition...";
+            document.getElementById('questions').textContent = "Initializing voice recognition...";
+            
+            // Start polling for prompt updates
+            promptPollingInterval = setInterval(updatePrompt, 1000);
             
             function updateNLPStatus() {
                 fetch('/nlp_process/')
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
-                            // Update the current prompt
-                            if (data.current_prompt) {
-                                document.getElementById('questions').textContent = data.current_prompt;
-                            }
-                            
                             // Update NLP results if available
                             if (data.user_info) {
                                 const nlpInfo = `
@@ -281,86 +659,200 @@
                                     </div>`;
                                 document.getElementById('ocrResults').innerHTML = nlpInfo;
                             }
-
-                            // If NLP is still in progress, continue polling
-                            if (!data.nlp_complete) {
-                                setTimeout(updateNLPStatus, 1000);
-                            } else {
-                                // Start OCR when NLP is complete
-                                document.getElementById('messageText').textContent = "NLP Complete. Starting OCR...";
-                                document.getElementById('questions').textContent = "Please show your Aadhar card";
-                                setTimeout(() => {
-                                    startOCRProcess();
-                                }, 1000);
-                            }
                         } else {
-                            document.getElementById('messageText').textContent = "NLP Failed";
-                            document.getElementById('questions').textContent = data.message || "Error in NLP process";
+                            document.getElementById('messageText').textContent = "Error: " + data.message;
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        document.getElementById('messageText').textContent = "Error in NLP process";
+                        document.getElementById('messageText').textContent = "Error during voice recognition";
                     });
             }
 
-            updateNLPStatus(); // Start the polling process
+            // Start the NLP status update
+            updateNLPStatus();
         }
 
         function startOCRProcess() {
-            document.getElementById('messageText').textContent = "Hold your Aadhar card steady...";
-            document.getElementById('questions').textContent = "Detecting Aadhar card...";
+            let preparationTime = 10; // 10 seconds for preparation
+            let ocrTimeout = 5; // 5 seconds for OCR
+            let ocrStarted = false;
             
-            const startTime = Date.now();
-            const timeoutDuration = 10000; // 10 seconds
+            // Preparation countdown
+            document.getElementById('messageText').textContent = "Please prepare your Aadhaar card";
+            document.getElementById('questions').textContent = `Get ready! OCR will start in ${preparationTime} seconds...`;
             
-            let ocrInterval = setInterval(() => {
-                if (Date.now() - startTime >= timeoutDuration) {
-                    clearInterval(ocrInterval);
-                    document.getElementById('messageText').textContent = "OCR timeout reached";
-                    document.getElementById('questions').textContent = "Please try again";
-                    return;
+            let prepCountdown = setInterval(() => {
+                preparationTime--;
+                document.getElementById('questions').textContent = `Get ready! OCR will start in ${preparationTime} seconds...`;
+                
+                if (preparationTime <= 0) {
+                    clearInterval(prepCountdown);
+                    startActualOCR();
                 }
-
-                // Process frame for OCR
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                ctx.drawImage(video, 0, 0);
-                
-                const frameData = canvas.toDataURL('image/jpeg');
-                
-                fetch('/ocr_process/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({
-                        frame: frameData,
-                        elapsed_time: Date.now() - startTime
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        clearInterval(ocrInterval);
-                        document.getElementById('messageText').textContent = "OCR Complete!";
-                        document.getElementById('questions').textContent = "All processes finished";
-                        
-                        // Add OCR results below NLP results
-                        const ocrInfo = `
-                            <div class="ocr-results">
-                                <strong>OCR Results:</strong><br>
-                                Name: ${data.results.Name}<br>
-                                DOB: ${data.results.DOB}<br>
-                                Aadhar Number: ${data.results["Aadhar Number"]}
-                            </div>`;
-                        
-                        document.getElementById('ocrResults').innerHTML += ocrInfo;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
             }, 1000);
+
+            function startActualOCR() {
+                document.getElementById('messageText').textContent = "Scanning Aadhaar card...";
+                document.getElementById('questions').textContent = `Please hold your card steady. Time remaining: ${ocrTimeout} seconds`;
+                ocrStarted = true;
+                
+                let ocrInterval = setInterval(() => {
+                    if (ocrTimeout <= 0) {
+                        clearInterval(ocrInterval);
+                        document.getElementById('messageText').textContent = "OCR timeout reached";
+                        document.getElementById('questions').textContent = "Please wait, processing captured frames...";
+                        
+                        // Final OCR attempt with all captured frames
+                        fetch('/ocr_process/', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken'),
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                frame: frameData,
+                                elapsed_time: -1  // Signal for final processing
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success' && data.ocr_data) {
+                                document.getElementById('messageText').textContent = "OCR completed successfully";
+                                document.getElementById('questions').textContent = "Card details captured successfully!";
+                                displayOCRResults(data.ocr_data);
+                            } else {
+                                document.getElementById('messageText').textContent = "Could not read card";
+                                document.getElementById('questions').textContent = "Please try again with better lighting and card position";
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.getElementById('messageText').textContent = "Error processing card";
+                            document.getElementById('questions').textContent = "Please try again";
+                        });
+                        return;
+                    }
+                    
+                    // Process frame for OCR
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0);
+                    
+                    ocrTimeout--;
+                    document.getElementById('questions').textContent = `Please hold your card steady. Time remaining: ${ocrTimeout} seconds`;
+
+                    const frameData = canvas.toDataURL('image/jpeg');
+                    
+                    // Try OCR
+                    fetch('/ocr_process/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            frame: frameData,
+                            elapsed_time: ocrTimeout
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success' && data.ocr_data) {
+                            clearInterval(ocrInterval);
+                            document.getElementById('messageText').textContent = "OCR completed successfully";
+                            document.getElementById('questions').textContent = "Card details captured successfully!";
+                            displayOCRResults(data.ocr_data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }, 1000);
+            }
+
+            function displayOCRResults(results) {
+                const ocrInfo = `
+                    <div class="ocr-results">
+                        <strong>OCR Results:</strong><br>
+                        Name: ${results.name}<br>
+                        Date of Birth: ${results.dob}<br>
+                        Aadhaar Number: ${results.aadhar_number}<br>
+                        Address: ${results.address}
+                    </div>`;
+                document.getElementById('ocrResults').innerHTML += ocrInfo;
+                showThankYouPage(results);
+            }
+        }
+
+        function showThankYouPage(ocrData) {
+            // Hide verification container
+            document.querySelector('.verification-container').style.display = 'none';
+            
+            // Show thank you container
+            const thankYouContainer = document.querySelector('.thank-you-container');
+            thankYouContainer.style.display = 'block';
+
+            // Populate preview data
+            document.getElementById('preview-firstname').textContent = '';
+            document.getElementById('preview-lastname').textContent = '';
+            document.getElementById('preview-age').textContent = '';
+            document.getElementById('preview-phone').textContent = '';
+            document.getElementById('preview-aadhaar').textContent = ocrData.aadhaar_number || '';
+            document.getElementById('preview-address').textContent = ocrData.address || '';
+
+            // Set input values
+            document.getElementById('edit-firstname').value = '';
+            document.getElementById('edit-lastname').value = '';
+            document.getElementById('edit-age').value = '';
+            document.getElementById('edit-phone').value = '';
+            document.getElementById('edit-aadhaar').value = ocrData.aadhaar_number || '';
+            document.getElementById('edit-address').value = ocrData.address || '';
+        }
+
+        function enableEdit() {
+            // Hide all preview spans and show all edit inputs
+            document.querySelectorAll('.field-value span').forEach(span => {
+                span.style.display = 'none';
+            });
+            document.querySelectorAll('.field-value input').forEach(input => {
+                input.style.display = 'block';
+            });
+            
+            // Change button text
+            document.querySelector('.btn-secondary').textContent = 'Save Changes';
+            document.querySelector('.btn-secondary').onclick = saveChanges;
+        }
+
+        function saveChanges() {
+            // Hide all edit inputs and show all preview spans with updated values
+            document.querySelectorAll('.field-value').forEach(field => {
+                const span = field.querySelector('span');
+                const input = field.querySelector('input');
+                span.textContent = input.value;
+                span.style.display = 'block';
+                input.style.display = 'none';
+            });
+
+            // Restore button
+            document.querySelector('.btn-secondary').textContent = 'Edit Information';
+            document.querySelector('.btn-secondary').onclick = enableEdit;
+        }
+
+        function submitFinal() {
+            // Collect all final data
+            const finalData = {
+                first_name: document.getElementById('preview-firstname').textContent,
+                last_name: document.getElementById('preview-lastname').textContent,
+                age: document.getElementById('preview-age').textContent,
+                phone: document.getElementById('preview-phone').textContent,
+                aadhaar_number: document.getElementById('preview-aadhaar').textContent,
+                address: document.getElementById('preview-address').textContent
+            };
+
+            // TODO: Send finalData to your backend
+            console.log('Submitting final data:', finalData);
+            alert('Thank you! Your information has been submitted successfully.');
         }
 
         // Get CSRF token
@@ -381,7 +873,7 @@
 
         // Start the process
         document.addEventListener('DOMContentLoaded', (event) => {
-            initCamera();
+            // Do nothing
         });
     </script>
 </body>

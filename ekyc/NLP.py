@@ -4,6 +4,9 @@ import threading
 import time
 import re
 
+# Global variable to store current prompt
+current_prompt = None
+
 class UserInfo:
     def __init__(self):
         self.first_name = "Waiting for first name..."
@@ -54,42 +57,89 @@ def process_camera(stop_event, user_info):
     cap.release()
     cv2.destroyAllWindows()
 
+# def get_speech_input(prompt, validation_func=None, error_message=None, max_attempts=5):
+#     recognizer = sr.Recognizer()
+#     attempt = 0
+    
+#     while attempt < max_attempts:
+#         try:
+#             with sr.Microphone() as source:
+#                 print(f"\n{prompt}")
+#                 # Shorter ambient noise adjustment for faster response
+#                 recognizer.adjust_for_ambient_noise(source, duration=0.3)
+#                 print("Listening...")
+                
+#                 # Increased timeout and phrase_time_limit for better recognition
+#                 audio = recognizer.listen(source, timeout=10, phrase_time_limit=5)
+#                 text = recognizer.recognize_google(audio)
+#                 text = text.strip()
+                
+#                 # Apply validation if provided
+#                 if validation_func and not validation_func(text):
+#                     print(error_message)
+#                     attempt += 1
+#                     continue
+                
+#                 return text
+                
+#         except sr.UnknownValueError:
+#             print("Sorry, I couldn't understand that. Please speak clearly.")
+#         except sr.RequestError:
+#             print("Speech recognition service unavailable. Please try again.")
+#         except Exception as e:
+#             print(f"Error: {e}. Please try again.")
+        
+#         attempt += 1
+    
+#     print(f"Maximum attempts reached. Using default value.")
+#     return None
+
+
 def get_speech_input(prompt, validation_func=None, error_message=None, max_attempts=5):
+    global current_prompt
     recognizer = sr.Recognizer()
     attempt = 0
+    
+    # Update the current prompt
+    current_prompt = prompt
     
     while attempt < max_attempts:
         try:
             with sr.Microphone() as source:
                 print(f"\n{prompt}")
-                # Shorter ambient noise adjustment for faster response
                 recognizer.adjust_for_ambient_noise(source, duration=0.3)
                 print("Listening...")
                 
-                # Increased timeout and phrase_time_limit for better recognition
                 audio = recognizer.listen(source, timeout=10, phrase_time_limit=5)
                 text = recognizer.recognize_google(audio)
                 text = text.strip()
                 
-                # Apply validation if provided
                 if validation_func and not validation_func(text):
+                    current_prompt = f"{error_message}\n{prompt}"
                     print(error_message)
                     attempt += 1
                     continue
-                
+
+                # current_prompt = text
+                # print(current_prompt, "inside the get_speech_input text getting!")
                 return text
                 
         except sr.UnknownValueError:
-            print("Sorry, I couldn't understand that. Please speak clearly.")
+            current_prompt = "Please speak clearly.\n" + prompt
+            print(current_prompt)
         except sr.RequestError:
-            print("Speech recognition service unavailable. Please try again.")
+            current_prompt = "Please try again.\n" + prompt
+            print(current_prompt)
         except Exception as e:
-            print(f"Error: {e}. Please try again.")
+            current_prompt = "Please try again.\n" + prompt
+            print(current_prompt)
         
         attempt += 1
     
-    print(f"Maximum attempts reached. Using default value.")
+    # current_prompt = "Maximum attempts reached. Using default value."
+    # print(current_prompt)
     return None
+
 
 def validate_age(age_text):
     try:
@@ -114,18 +164,27 @@ def format_phone(phone_text):
     return phone_text
 
 def get_user_info(stop_event, user_info):
+    global current_prompt
     try:
         # Get first name
         first_name = get_speech_input("Please say your first name:")
         if first_name:
             user_info.first_name = first_name.capitalize()
             print(f"Recorded first name: {user_info.first_name}")
+            current_prompt = f"Recorded First Name: {user_info.first_name}"
+        else:
+            user_info.first_name = "John"  # Dummy data
+            current_prompt = "Using default name: John"
         
         # Get last name
         last_name = get_speech_input("Please say your last name:")
         if last_name:
             user_info.last_name = last_name.capitalize()
             print(f"Recorded last name: {user_info.last_name}")
+            current_prompt = f"Recorded Last Name: {user_info.last_name}"
+        else:
+            user_info.last_name = "Doe"  # Dummy data
+            current_prompt = "Using default last name: Doe"
         
         # Get age with validation
         age = get_speech_input(
@@ -137,6 +196,10 @@ def get_user_info(stop_event, user_info):
             age_value = int(age.lower().replace("years", "").replace("year", "").strip())
             user_info.age = f"{age_value} years"
             print(f"Recorded age: {user_info.age}")
+            current_prompt = f"Recorded Age: {user_info.age}"
+        else:
+            user_info.age = "25 years"  # Dummy data
+            current_prompt = "Using default age: 25 years"
         
         # Get phone number with validation
         phone = get_speech_input(
@@ -147,11 +210,22 @@ def get_user_info(stop_event, user_info):
         if phone:
             user_info.phone = format_phone(phone)
             print(f"Recorded phone: {user_info.phone}")
+            current_prompt = f"Recorded Phone: {user_info.phone}"
+        else:
+            user_info.phone = "123-456-7890"  # Dummy data
+            current_prompt = "Using default phone: 123-456-7890"
         
         print("\nAll information collected. Press 'q' to quit...")
+        current_prompt = None
         
     except Exception as e:
         print(f"An error occurred during information collection: {e}")
+        # Set dummy data for all fields if there's an error
+        user_info.first_name = "John"
+        user_info.last_name = "Doe"
+        user_info.age = "25 years"
+        user_info.phone = "123-456-7890"
+        current_prompt = "Using default information due to error"
     finally:
         if all(value == "Waiting for name..." for value in [user_info.first_name, user_info.last_name, user_info.age, user_info.phone]):
             print("No information was collected successfully.")
