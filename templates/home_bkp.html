@@ -147,7 +147,7 @@
 
         .hero-subtitle {
             font-size: 1.2rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             opacity: 0.9;
         }
 
@@ -365,20 +365,20 @@
     <div class="hero-section">
         <h1 class="hero-title">eKYC Process</h1>
         <p class="hero-subtitle">Follow these steps to complete your eKYC verification</p>
-        <div class="steps-container mt-5">
+        <div class="steps-container">
             <div class="step-card">
                 <div class="step-number">1</div>
-                <h2 class="step-title">Human Verification</h2>
-                <p class="step-description">blink your eyes to start verification process</p>
+                <h2 class="step-title">Wave your hand</h2>
+                <p class="step-description">Wave your hand to begin the verification process</p>
             </div>
             <div class="step-card">
                 <div class="step-number">2</div>
-                <h2 class="step-title">Voice Verification</h2>
-                <p class="step-description">Answer the questions to complete the verification process</p>
+                <h2 class="step-title">Blink your eyes</h2>
+                <p class="step-description">Blink your eyes to complete the verification process</p>
             </div>
             <div class="step-card">
                 <div class="step-number">3</div>
-                <h2 class="step-title">Card Verification</h2>  
+                <h2 class="step-title">Show your Aadhaar card</h2>
                 <p class="step-description">Show your Aadhaar card to complete the verification process</p>
             </div>
         </div>
@@ -396,6 +396,9 @@
                     <div class="status-overlay">
                         <div class="verification-message" id="messageText">Starting verification...</div>
                         <div class="status-indicators">
+                            <div class="status-box">
+                                Wave count: <span id="waveCount">0</span>/2
+                            </div>
                             <div class="status-box">
                                 Blink count: <span id="blinkCount">0</span>/3
                             </div>
@@ -450,15 +453,15 @@
                     <div class="data-field">
                         <div class="field-label">Aadhaar Number</div>
                         <div class="field-value">
-                            <span id="preview-aadhar"></span>
-                            <input type="text" id="edit-aadhar">
+                            <span id="preview-aadhaar"></span>
+                            <input type="text" id="edit-aadhaar">
                         </div>
                     </div>
                     <div class="data-field">
-                        <div class="field-label">Full Name</div>
+                        <div class="field-label">Address</div>
                         <div class="field-value">
-                            <span id="preview-name"></span>
-                            <input type="text" id="edit-name">
+                            <span id="preview-address"></span>
+                            <input type="text" id="edit-address">
                         </div>
                     </div>
                 </div>
@@ -475,9 +478,7 @@
         let canvas = null;
         let ctx = null;
         let mediaStream = null;
-        let verificationComplete = false;
-        let nlpDataStore = null;
-        let ocrDataStore = null;
+        let verificationComplete = true;
 
         function initializeVerification() {
             // Initialize video and canvas elements
@@ -517,8 +518,8 @@
         }
 
         function startHumanVerification() {
-            document.getElementById('messageText').textContent = "Please blink your eyes";
-            document.getElementById('questions').textContent = "Please blink three times to continue";
+            document.getElementById('messageText').textContent = "Wave your hand to begin";
+            document.getElementById('questions').textContent = "Please wave your hand twice to start";
             processFrame();
         }
 
@@ -566,21 +567,19 @@
         // Update UI with verification status
         function updateVerificationUI(data) {
             document.getElementById('messageText').textContent = data.message;
+            document.getElementById('waveCount').textContent = data.wave_count;
             document.getElementById('blinkCount').textContent = data.blink_count;
             
-            // Calculate completion percentage based on blinks only
-            const totalSteps = 3; // Only 3 blinks now
-            const completedSteps = data.blink_count; // Use blink_count, default to 0 if undefined
+            // Calculate completion percentage
+            const totalSteps = 5; // 2 waves + 3 blinks
+            const completedSteps = data.wave_count + data.blink_count;
             const percentage = Math.round((completedSteps / totalSteps) * 100);
             updateProgressCircle(percentage);
             
-            if (data.phase_complete) { // This phase_complete comes from HumanV.py, which is based on blinks_verified
+            if (data.phase_complete) {
                 verificationComplete = true;
                 // Hide the status overlay
-                const statusOverlay = document.querySelector('.status-overlay');
-                if (statusOverlay) {
-                    statusOverlay.style.display = 'none';
-                }
+                document.querySelector('.status-overlay').style.display = 'none';
                 startNLPProcess();
             }
         }
@@ -650,14 +649,13 @@
                         if (data.status === 'success') {
                             // Update NLP results if available
                             if (data.user_info) {
-                                nlpDataStore = data.user_info;
                                 const nlpInfo = `
                                     <div class="nlp-results">
                                         <strong>NLP Results:</strong><br>
-                                        First Name: ${nlpDataStore.first_name}<br>
-                                        Last Name: ${nlpDataStore.last_name}<br>
-                                        Age: ${nlpDataStore.age}<br>
-                                        Phone: ${nlpDataStore.phone}
+                                        First Name: ${data.user_info.first_name}<br>
+                                        Last Name: ${data.user_info.last_name}<br>
+                                        Age: ${data.user_info.age}<br>
+                                        Phone: ${data.user_info.phone}
                                     </div>`;
                                 document.getElementById('ocrResults').innerHTML = nlpInfo;
                             }
@@ -773,126 +771,62 @@
                 }, 1000);
             }
 
-            function finalizeOCR() {
-                updateOCRStatus("Processing all captured Aadhaar images...");
-                fetch('/ocr_process/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({ action: 'finalize' })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success' && data.final_data) {
-                        ocrDataStore = data.final_data; // Store final OCR data
-                        updateOCRStatus("Aadhaar card processed successfully!");
-                        displayOCRResults(ocrDataStore); // Call with ocrDataStore
-                    } else {
-                        updateOCRStatus("OCR failed: " + (data.message || "Could not extract details. Please try again."));
-                        displayOCRResults({}); // Call with empty OCR data on failure to still show NLP data
-                    }
-                })
-                .catch(error => {
-                    console.error('Error finalizing OCR:', error);
-                    updateOCRStatus("Error finalizing OCR. Please try again.");
-                    displayOCRResults({}); // Call with empty OCR data on error
-                });
+            function displayOCRResults(results) {
+                console.log('displayOCRResults called with results:', results);
+                console.log('nlpDataStore:', nlpDataStore);
+                // This function is now primarily for transitioning to the thank you page
+                // The ocrResults div in verification-container is less important as it will be hidden
+                if (results && Object.keys(results).length > 0) {
+                    const ocrInfoForLog = `
+                        <div class="info-box">
+                            <h3>OCR Results (Log)</h3>
+                            Aadhaar Number: ${results.aadhaar_number || 'N/A'}<br>
+                            Name (from OCR): ${results.name || 'N/A'}<br>
+                            DOB (from OCR): ${results.dob || 'N/A'}<br>
+                            Address: ${results.address || 'N/A'}
+                        </div>`;
+                    document.getElementById('ocrResults').innerHTML += ocrInfoForLog;
+                    showThankYouPage(nlpDataStore, results); // Pass nlpDataStore and current OCR results
+                } else {
+                     showThankYouPage(nlpDataStore, {}); // Pass nlpDataStore and empty object for OCR if results are empty
+                }
             }
 
-            function executeOCRStep() {
-                // Process frame for OCR
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                ctx.drawImage(video, 0, 0);
+            function showThankYouPage(nlpData, ocrData) {
+                console.log('showThankYouPage called with nlpData:', nlpData, 'ocrData:', ocrData);
+                nlpData = nlpData || {};
+                ocrData = ocrData || {};
                 
-                const frameData = canvas.toDataURL('image/jpeg');
+                // Hide verification container
+                document.querySelector('.verification-container').style.display = 'none';
                 
-                // Try OCR
-                fetch('/ocr_process/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': getCookie('csrftoken'),
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        frame: frameData,
-                        elapsed_time: ocrTimeout
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success' && data.ocr_data) {
-                        clearInterval(ocrInterval);
-                        document.getElementById('messageText').textContent = "OCR completed successfully";
-                        document.getElementById('questions').textContent = "Card details captured successfully!";
-                        displayOCRResults(data.ocr_data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-        }
+                // Show thank you container
+                const thankYouContainer = document.getElementById('thankYouContainer');
+                if (thankYouContainer) {
+                    thankYouContainer.style.display = 'block';
+                } else {
+                    console.error('Thank You container element not found!');
+                    alert("Critical error: Thank You page element is missing. Please refresh.");
+                    return;
+                }
 
-        function displayOCRResults(results) {
-            // results here is ocrDataStore or an empty object
-            console.log('displayOCRResults called with OCR results:', results);
-            console.log('nlpDataStore at time of calling showThankYouPage:', nlpDataStore);
-            
-            // The ocrResults div in verification-container is less important as it will be hidden
-            if (results) {
-                const ocrInfoForLog = `
-                    <div class="info-box">
-                        <h3>OCR Results (Log)</h3>
-                        Aadhaar Number: ${results.aadhaar_number || 'N/A'}<br>
-                        Name (from OCR): ${results.name || 'N/A'}<br>
-                        DOB (from OCR): ${results.dob || 'N/A'}<br>
-                        Address: ${results.address || 'N/A'}
-                    </div>`;
-                // Optionally update a log area, but primary display is thankYouPage
-                // document.getElementById('ocrResults').innerHTML += ocrInfoForLog;
-            }
-            showThankYouPage(nlpDataStore, results); // Pass nlpDataStore and current OCR results
-        }
+                // Populate preview data        
+                console.log('Populating preview with NLP data:', nlpData);
+                console.log('Populating preview with OCR data:', ocrData);
+                document.getElementById('preview-firstname').textContent = nlpData.first_name || '';
+                document.getElementById('preview-lastname').textContent = nlpData.last_name || '';
+                document.getElementById('preview-age').textContent = nlpData.age || '';
+                document.getElementById('preview-phone').textContent = nlpData.phone || '';
+                document.getElementById('preview-aadhaar').textContent = ocrData.aadhaar_number || '';
+                document.getElementById('preview-address').textContent = ocrData.address || '';
 
-        function showThankYouPage(nlpData, ocrData) { 
-            console.log('showThankYouPage called with nlpData:', nlpData, 'ocrData:', ocrData);
-            nlpData = nlpData || {}; // Ensure nlpData is an object, even if null/undefined initially
-            ocrData = ocrData || {}; // Ensure ocrData is an object
-
-            document.querySelector('.verification-container').style.display = 'none';
-            const thankYouContainer = document.getElementById('thankYouContainer');
-            if (thankYouContainer) {
-                thankYouContainer.style.display = 'block';
-            } else {
-                console.error('Thank You container element not found!');
-                alert("Critical error: Thank You page element is missing. Please refresh.");
-                return;
-            }
-
-            document.getElementById('preview-firstname').textContent = nlpData.first_name || '';
-            document.getElementById('edit-firstname').value = nlpData.first_name || '';
-            document.getElementById('preview-lastname').textContent = nlpData.last_name || '';
-            document.getElementById('edit-lastname').value = nlpData.last_name || '';
-            document.getElementById('preview-age').textContent = nlpData.age || '';
-            document.getElementById('edit-age').value = nlpData.age || '';
-            document.getElementById('preview-phone').textContent = nlpData.phone || '';
-            document.getElementById('edit-phone').value = nlpData.phone || '';
-
-            document.getElementById('preview-aadhar').textContent = ocrData.aadhar_number || '';
-            document.getElementById('edit-aadhar').value = ocrData.aadhar_number || '';
-            document.getElementById('preview-name').textContent = ocrData.name || '';
-            document.getElementById('edit-name').value = ocrData.name || '';
-            
-            document.querySelectorAll('.field-value span').forEach(span => span.style.display = 'block');
-            document.querySelectorAll('.field-value input').forEach(input => input.style.display = 'none');
-            
-            const editButton = document.querySelector('#thankYouContainer .action-buttons .btn-secondary');
-            if(editButton) {
-                editButton.textContent = 'Edit Information';
-                editButton.onclick = enableEdit;
+                // Set input values
+                document.getElementById('edit-firstname').value = nlpData.first_name || '';
+                document.getElementById('edit-lastname').value = nlpData.last_name || '';
+                document.getElementById('edit-age').value = nlpData.age || '';
+                document.getElementById('edit-phone').value = nlpData.phone || '';
+                document.getElementById('edit-aadhaar').value = ocrData.aadhaar_number || '';
+                document.getElementById('edit-address').value = ocrData.address || '';
             }
         }
 
@@ -932,8 +866,8 @@
                 last_name: document.getElementById('preview-lastname').textContent,
                 age: document.getElementById('preview-age').textContent,
                 phone: document.getElementById('preview-phone').textContent,
-                aadhar_number: document.getElementById('preview-aadhar').textContent,
-                name: document.getElementById('preview-name').textContent
+                aadhaar_number: document.getElementById('preview-aadhaar').textContent,
+                address: document.getElementById('preview-address').textContent
             };
 
             // TODO: Send finalData to your backend
