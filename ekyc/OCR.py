@@ -7,6 +7,36 @@ from PIL import Image
 import time
 import tempfile
 import concurrent.futures
+import uuid
+from django.conf import settings
+
+class OCRSystem:
+    def __init__(self):
+        self.aadhar_number = None
+        self.dob = None
+        self.name = None
+        self.captured_card_path = None # To store the path of the saved image
+        self.last_frame = None
+
+    def save_card_image(self):
+        """Saves the last processed frame to the media directory."""
+        if self.captured_card_path or self.last_frame is None:
+            return
+
+        try:
+            filename = f"{uuid.uuid4()}_card.jpg"
+            filepath = os.path.join(settings.MEDIA_ROOT, filename)
+            os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
+            
+            # The frame is a numpy array, save it with cv2
+            cv2.imwrite(filepath, self.last_frame)
+            
+            self.captured_card_path = os.path.join(settings.MEDIA_URL, filename).replace("\\", "/")
+            print(f"Saved card image to: {self.captured_card_path}")
+
+        except Exception as e:
+            print(f"Error saving card image: {e}")
+            self.captured_card_path = None
 
 def detect_aadhar_card(frame):
     """Detect if frame contains an Aadhar card"""
@@ -107,9 +137,10 @@ def extract_aadhar_details(text_results):
     
     patterns = {
         "Aadhar Number": r'(?<!\d)(\d{4}\s\d{4}\s\d{4})(?!\d)',
-        "DOB": r'\b(\d{2}/\d{2}/\d{4}|\d{2}-\d{2}-\d{4}|DOB)\b',
-        "Name": r'([A-Z][A-Z\s]+)(?=\s(?:\d{2}/\d{2}/\d{4}|\d{2}-\d{2}-\d{4}|DOB))'  # Name before DOB or "DOB"
+        "DOB": r'(?:(?:DOB|Date of Birth|जन्म तारीख|जन्मतिथि)\s[:/]?\s)?(\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4})',
+        "Name": r'(?:Government\s+of\s+India|India).*?\b([A-Z][a-z]{2,}\s+[A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})?)\b(?=(?:DOB|Date\s+of\s+Birth|\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4}))',
     }
+    
     
     name_candidates = []
     
@@ -150,6 +181,7 @@ def extract_aadhar_details(text_results):
         details["Name"] = name_candidates[0][0]
         details["Confidence"]["Name"] = name_candidates[0][1]
     
+    print(details)
     return details
 
 

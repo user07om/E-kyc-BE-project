@@ -1,0 +1,29 @@
+{
+  "5205": {
+    "first_name": "omkar",
+    "last_name": "bulbule",
+    "age": "25",
+    "phone": "9834721818",
+    "aadhar_number": "6815 2469 5205",
+    "name": "omkar vishnu Bulbule",
+    "dob": "1999/09/20"
+  },
+  "9012": {
+    "first_name": "Priya",
+    "last_name": "Sharma",
+    "age": "28",
+    "phone": "8765432109",
+    "aadhar_number": "9876 5432 4567",
+    "name": "Priya Kumari Sharma",
+    "dob": "1995/11/22"
+  },
+  "1122": {
+    "first_name": "Amit",
+    "last_name": "Verma",
+    "age": "45",
+    "phone": "7654321098",
+    "aadhar_number": "5678 1234 1122",
+    "name": "Amit K. Verma",
+    "dob": "1979/03/01"
+  }
+}

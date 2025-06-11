@@ -5,6 +5,8 @@ from collections import deque
 import time
 import os
 import base64
+import uuid
+from django.conf import settings
 
 class HumanVerificationSystem:
     def __init__(self):
@@ -23,6 +25,8 @@ class HumanVerificationSystem:
         self.current_phase = "blink"
         self.showing_excellent = False
         self.excellent_start_time = None
+        self.captured_image_path = None
+        self.current_frame = None
 
     def get_eye_height(self, landmarks, top_idx, bottom_idx):
         top = landmarks[top_idx]
@@ -61,6 +65,29 @@ class HumanVerificationSystem:
                         
                         if self.blink_counter >= 3:
                             self.blinks_verified = True
+
+    def save_capture(self, frame):
+        """Saves the captured frame to the media directory."""
+        if self.captured_image_path:
+            return # Already saved
+
+        try:
+            filename = f"{uuid.uuid4()}.jpg"
+            # Note: MEDIA_ROOT is already an absolute path
+            filepath = os.path.join(settings.MEDIA_ROOT, filename)
+            
+            # Ensure the directory exists
+            os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
+            
+            cv2.imwrite(filepath, frame)
+            
+            # Store the URL path, not the filesystem path
+            self.captured_image_path = os.path.join(settings.MEDIA_URL, filename).replace("\\", "/")
+            print(f"Saved human verification image to: {self.captured_image_path}")
+
+        except Exception as e:
+            print(f"Error saving human verification image: {e}")
+            self.captured_image_path = None
 
     def save_photo(self, frame):
         try:
@@ -106,7 +133,10 @@ class HumanVerificationSystem:
         if self.blinks_verified:
             status['phase_complete'] = True
             status['success'] = True
-            status['message'] = "Verification successful! Ready for photo."
+            status['message'] = "Verification complete!"
+            if not self.captured_image_path:
+                self.save_capture(self.current_frame)
+            status['captured_image_path'] = self.captured_image_path
 
         return status
 
@@ -127,7 +157,8 @@ class HumanVerificationSystem:
                 'blink_count': self.blink_counter,
                 'phase_complete': self.blinks_verified,
                 'message': status['message'],
-                'frame_data': frame_data
+                'frame_data': frame_data,
+                'captured_image_path': status.get('captured_image_path')
             }
             
         except Exception as e:
@@ -135,4 +166,3 @@ class HumanVerificationSystem:
                 'status': 'error',
                 'message': str(e)
             }
-# ``` 

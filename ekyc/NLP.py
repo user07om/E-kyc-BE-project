@@ -194,11 +194,11 @@ def get_user_info(stop_event, user_info):
         )
         if age:
             age_value = int(age.lower().replace("years", "").replace("year", "").strip())
-            user_info.age = f"{age_value} years"
+            user_info.age = f"{age_value}"
             print(f"Recorded age: {user_info.age}")
             current_prompt = f"Recorded Age: {user_info.age}"
         else:
-            user_info.age = "25 years"  # Dummy data
+            user_info.age = "25"  # Dummy data
             current_prompt = "Using default age: 25 years"
         
         # Get phone number with validation
@@ -223,7 +223,7 @@ def get_user_info(stop_event, user_info):
         # Set dummy data for all fields if there's an error
         user_info.first_name = "John"
         user_info.last_name = "Doe"
-        user_info.age = "25 years"
+        user_info.age = "25"
         user_info.phone = "123-456-7890"
         current_prompt = "Using default information due to error"
     finally:

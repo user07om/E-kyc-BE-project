@@ -18,6 +18,7 @@ import time
 import threading
 from concurrent.futures import ThreadPoolExecutor
 import datetime
+import uuid
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from ekyc import logger
@@ -25,6 +26,9 @@ from .models import CustomUser
 from .HumanV import HumanVerificationSystem
 from .NLP import UserInfo, get_user_info
 from .OCR import extract_text_with_confidence, extract_aadhar_details, process_single_frame, process_multiple_frames
+
+from django.utils import timezone
+from .models import UserDetails
 
 User = get_user_model()
 
@@ -272,6 +276,8 @@ def ocr_process(request):
             if card_detected and result:
                 # Add new result to session
                 request.session['ocr_results'].append(result)
+                # Store the frame that produced this result
+                request.session['last_successful_frame_b64'] = frame_data
                 request.session.modified = True
                 
                 # If this is the final processing (-1) or we have good results
@@ -285,10 +291,29 @@ def ocr_process(request):
                         'address': r.get('Address', '')
                     } for r in all_results])
                     
+                    # --- Save the last successful image ---
+                    captured_card_path = None
+                    last_frame_b64 = request.session.get('last_successful_frame_b64')
+                    if last_frame_b64:
+                        try:
+                            img_bytes = base64.b64decode(last_frame_b64.split(',')[1])
+                            img_arr = np.frombuffer(img_bytes, np.uint8)
+                            img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
+                            
+                            filename = f"{uuid.uuid4()}_card.jpg"
+                            filepath = os.path.join(settings.MEDIA_ROOT, filename)
+                            os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
+                            cv2.imwrite(filepath, img)
+                            captured_card_path = os.path.join(settings.MEDIA_URL, filename).replace("\\", "/")
+                        except Exception as e:
+                            print(f"Error saving final card image: {e}")
+
                     # Clear session data
                     request.session['ocr_results'] = []
+                    request.session.pop('last_successful_frame_b64', None)
                     
                     if final_result:
+                        final_result['captured_card_path'] = captured_card_path
                         return JsonResponse({
                             'status': 'success',
                             'ocr_complete': True,
@@ -314,3 +339,79 @@ def ocr_process(request):
             'status': 'error',
             'message': 'Error processing card'
         })
+
+@login_required
+def submitFinal(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            final_data = data.get('finalData', {})
+            
+            # Convert date string to date object
+            dob_str = final_data.get('dob', '')
+            dob = None
+            
+            if dob_str:
+                try:
+                    # Handle different date formats
+                    for fmt in ('%d/%m/%Y', '%d-%m-%Y', '%d.%m.%Y'):
+                        try:
+                            dob = timezone.datetime.strptime(dob_str, fmt).date()
+                            break
+                        except ValueError:
+                            continue
+                except Exception:
+                    dob = None
+            
+            # Create and save UserDetails instance
+            UserDetails.objects.create(
+                user=request.user,
+                first_name=final_data.get('first_name', ''),
+                last_name=final_data.get('last_name', ''),
+                age=int(final_data.get('age', 0)) if final_data.get('age', '').isdigit() else 0,
+                phone=final_data.get('phone', ''),
+                aadhar_number=final_data.get('aadhar_number', ''),
+                name=final_data.get('name', ''),
+                dob=dob
+            )
+            
+            # --- Start Comparison Logic ---
+            match_percentage = 0
+            try:
+                # Construct path to master.json in the project root
+                master_file_path = settings.BASE_DIR / 'master.json'
+                with open(master_file_path, 'r') as f:
+                    master_data = json.load(f)
+
+                submitted_aadhar = final_data.get('aadhar_number', '')
+                if submitted_aadhar and len(submitted_aadhar.replace(' ', '')) == 12:
+                    last_four_digits = submitted_aadhar.replace(' ', '')[-4:]
+                    master_record = master_data.get(last_four_digits)
+
+                    if master_record:
+                        fields_to_compare = ['first_name', 'last_name', 'age', 'phone', 'name', 'dob']
+                        total_fields = len(fields_to_compare)
+                        matched_fields = 0
+
+                        for field in fields_to_compare:
+                            # Normalize and compare
+                            submitted_value = str(final_data.get(field, '')).strip().lower()
+                            master_value = str(master_record.get(field, '')).strip().lower()
+                            if submitted_value == master_value:
+                                matched_fields += 1
+                        
+                        if total_fields > 0:
+                            match_percentage = (matched_fields / total_fields) * 100
+
+            except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+                # If master.json is not found, or key is missing, etc., just default to 0
+                print(f"Could not calculate match percentage: {e}")
+                match_percentage = 0
+            # --- End Comparison Logic ---
+
+            return JsonResponse({'status': 'success', 'message': 'Data saved successfully!', 'match_percentage': round(match_percentage)})
+        
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

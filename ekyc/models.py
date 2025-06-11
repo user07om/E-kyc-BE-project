@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
+from django.conf import settings
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
@@ -44,3 +46,22 @@ class KYCSession(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
+class UserDetails(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    phone = models.CharField(max_length=15)
+    aadhar_number = models.CharField(max_length=20)
+    name = models.CharField(max_length=200)
+    dob = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.aadhar_number}"

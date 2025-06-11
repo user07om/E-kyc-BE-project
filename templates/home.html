@@ -359,6 +359,116 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .preview-value, .edit-field {
+            flex-basis: 60%;
+        }
+
+        .image-preview-section {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .image-preview-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .image-box {
+            text-align: center;
+            width: 45%;
+        }
+
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            border-radius: 15px;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #0d6efd; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        #loader-overlay p {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -407,7 +517,12 @@
             </div>
         </div>
     </div>
-    <div class="thank-you-container" id="thankYouContainer">
+    <div id="thankYouContainer" style="display: none; position: relative;">
+        <div id="loader-overlay" style="display: none;">
+            <div class="loader"></div>
+            <p>Finalizing your details, please wait...</p>
+        </div>
+
         <div class="thank-you-content">
             <div class="thank-you-header">
                 <h1>Thank You!</h1>
@@ -461,12 +576,46 @@
                             <input type="text" id="edit-name">
                         </div>
                     </div>
+                    <div class="data-field">
+                        <div class="field-label">DOB</div>
+                        <div class="field-value">
+                            <span id="preview-dob"></span>
+                            <input type="text" id="edit-dob">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-preview-section">
+                <h3>Verification Images</h3>
+                <div class="image-preview-container">
+                    <div class="image-box">
+                        <h4>User Photo</h4>
+                        <img id="captured-face-img" src="" alt="Captured user photo">
+                    </div>
+                    <div class="image-box">
+                        <h4>ID Card Photo</h4>
+                        <img id="captured-card-img" src="" alt="Captured ID card photo">
+                    </div>
                 </div>
             </div>
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="enableEdit()">Edit Information</button>
                 <button class="btn btn-primary" onclick="submitFinal()">Confirm & Submit</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Success Popup Modal -->
+    <div id="successPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span id="popupClose" class="popup-close">&times;</span>
+            <h2>Submission Successful!</h2>
+            <p>Your data has been submitted.</p>
+            <p>Data Match Accuracy:</p>
+            <div class="progress-bar-container">
+                <div id="matchProgressBar" class="progress-bar">0%</div>
+            </div>
+            <button id="completeBtn" class="btn-primary" style="margin-top: 20px;">Complete</button>
         </div>
     </div>
 
@@ -478,6 +627,9 @@
         let verificationComplete = false;
         let nlpDataStore = null;
         let ocrDataStore = null;
+        let nlpInterval = null; // Track NLP interval
+        let ocrInterval = null; // Track OCR interval
+        let humanVerificationImagePath = null; // Variable to store the path
 
         function initializeVerification() {
             // Initialize video and canvas elements
@@ -549,13 +701,20 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    // Let the UI update function handle displaying messages
                     updateVerificationUI(data);
-                    if (!data.phase_complete) {
+
+                    if (data.phase_complete) {
+                        // Verification is successful, save the image path.
+                        // The UI function will handle stopping the camera and starting the next step.
+                        humanVerificationImagePath = data.captured_image_path;
+                    } else {
+                        // If verification is not complete, continue processing the next frame.
                         requestAnimationFrame(processFrame);
                     }
                 })
-                .catch(err => {
-                    console.error("Error:", err);
+                .catch(error => {
+                    console.error("Error:", error);
                     requestAnimationFrame(processFrame);
                 });
             } else {
@@ -677,7 +836,7 @@
 
         function startOCRProcess() {
             let preparationTime = 10; // 10 seconds for preparation
-            let ocrTimeout = 5; // 5 seconds for OCR
+            let ocrTimeout = 10; // 10 seconds for OCR
             let ocrStarted = false;
             
             // Preparation countdown
@@ -859,9 +1018,26 @@
 
         function showThankYouPage(nlpData, ocrData) { 
             console.log('showThankYouPage called with nlpData:', nlpData, 'ocrData:', ocrData);
-            nlpData = nlpData || {}; // Ensure nlpData is an object, even if null/undefined initially
-            ocrData = ocrData || {}; // Ensure ocrData is an object
+            nlpData = nlpData || {};
+            ocrData = ocrData || {};
 
+            // Stop camera and all processes
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            
+            // Clear active intervals
+            if (nlpInterval) clearInterval(nlpInterval);
+            if (ocrInterval) clearInterval(ocrInterval);
+            
+            // Hide and reset video element
+            if (video) {
+                video.pause();
+                video.srcObject = null;
+                video.style.display = 'none';
+            }
+            
             document.querySelector('.verification-container').style.display = 'none';
             const thankYouContainer = document.getElementById('thankYouContainer');
             if (thankYouContainer) {
@@ -885,7 +1061,21 @@
             document.getElementById('edit-aadhar').value = ocrData.aadhar_number || '';
             document.getElementById('preview-name').textContent = ocrData.name || '';
             document.getElementById('edit-name').value = ocrData.name || '';
-            
+            document.getElementById('preview-dob').textContent = ocrData.dob || '';
+            document.getElementById('edit-dob').value = ocrData.dob || '';
+
+            // Display captured images
+            const faceImg = document.getElementById('captured-face-img');
+            const cardImg = document.getElementById('captured-card-img');
+
+            if (faceImg && humanVerificationImagePath) {
+                faceImg.src = humanVerificationImagePath;
+            }
+
+            if (cardImg && ocrData && ocrData.captured_card_path) {
+                cardImg.src = ocrData.captured_card_path;
+            }
+
             document.querySelectorAll('.field-value span').forEach(span => span.style.display = 'block');
             document.querySelectorAll('.field-value input').forEach(input => input.style.display = 'none');
             
@@ -894,6 +1084,9 @@
                 editButton.textContent = 'Edit Information';
                 editButton.onclick = enableEdit;
             }
+
+            // Hide the loader now that all data is populated
+            document.getElementById('loader-overlay').style.display = 'none';
         }
 
         function enableEdit() {
@@ -933,12 +1126,55 @@
                 age: document.getElementById('preview-age').textContent,
                 phone: document.getElementById('preview-phone').textContent,
                 aadhar_number: document.getElementById('preview-aadhar').textContent,
-                name: document.getElementById('preview-name').textContent
+                name: document.getElementById('preview-name').textContent,
+                dob: document.getElementById('preview-dob').textContent
             };
 
-            // TODO: Send finalData to your backend
-            console.log('Submitting final data:', finalData);
-            alert('Thank you! Your information has been submitted successfully.');
+            // Send finalData to the backend
+            fetch('/submit_final_data/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ finalData: finalData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('Submission successful:', data.message);
+                    // Show the success popup instead of alert
+                    showSuccessPopup(data.match_percentage);
+                } else {
+                    console.error('Submission failed:', data.message);
+                    alert('There was an error submitting your information. Please try again. Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during submission:', error);
+                alert('A network error occurred. Please check your connection and try again.');
+            });
+        }
+
+        function showSuccessPopup(percentage) {
+            const popup = document.getElementById('successPopup');
+            const progressBar = document.getElementById('matchProgressBar');
+            const closeBtn = document.getElementById('popupClose');
+            const completeBtn = document.getElementById('completeBtn');
+
+            if (popup && progressBar && closeBtn && completeBtn) {
+                progressBar.style.width = percentage + '%';
+                progressBar.textContent = percentage + '%';
+                popup.style.display = 'flex';
+
+                const closeAndRedirect = function() {
+                    popup.style.display = 'none';
+                    window.location.href = '/'; // Redirect to home page
+                };
+
+                closeBtn.onclick = closeAndRedirect;
+                completeBtn.onclick = closeAndRedirect;
+            }
         }
 
         // Get CSRF token
